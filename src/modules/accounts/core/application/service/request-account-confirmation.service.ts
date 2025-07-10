@@ -11,7 +11,7 @@ import { generateNumericPin } from "@/shared/utils";
 export class RequestAccountConfirmationService
   implements RequestAccountConfirmationPortIn
 {
-  private readonly EXPIRATION_TIME_IN_MINUTES = 15;
+  private readonly EXPIRATION_TIME_IN_MINUTES = 15 * 60 * 1000;
 
   constructor(
     @Inject("AccountsPortOut")
