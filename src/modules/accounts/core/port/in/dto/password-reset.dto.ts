@@ -1,7 +1,11 @@
-import { z } from "zod";
+import { ApiProperty } from "@nestjs/swagger";
+import { IsEmail } from "class-validator";
 
-export const passwordResetDTOSchema = z.object({
-  email: z.string().email("Invalid email format."),
-});
-
-export type PasswordResetDTO = z.infer<typeof passwordResetDTOSchema>;
+export class PasswordResetDTO {
+  @ApiProperty({
+    description: "Email address of the user requesting password reset.",
+    example: "johndoe@example.com",
+  })
+  @IsEmail()
+  email: string;
+}
