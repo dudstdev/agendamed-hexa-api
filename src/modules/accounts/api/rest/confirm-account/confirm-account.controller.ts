@@ -1,11 +1,10 @@
 import { Body, Controller, HttpCode, HttpStatus, Post } from "@nestjs/common";
 import { ApiResponse, ApiTags } from "@nestjs/swagger";
 
+import { ConfirmAccountImplController } from "@/accounts/api/rest";
 import { ConfirmAccountDTO } from "@/accounts/core/port/in";
 import { AccountResponseDTO } from "@/accounts/core/port/out";
 import { Public } from "@/shared/infrastructure";
-
-import { ConfirmAccountImplController } from "./confirm-account.impl.controller";
 
 @ApiTags("Accounts")
 @Controller("/accounts/confirmation/confirm")
