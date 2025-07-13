@@ -12,9 +12,7 @@ export class ConfirmAccountImplController {
     private readonly confirmAccountService: ConfirmAccountPortIn,
   ) {}
 
-  async execute(
-    request: ConfirmAccountRequestDTO,
-  ): Promise<AccountResponseDTO> {
+  async handle(request: ConfirmAccountRequestDTO): Promise<AccountResponseDTO> {
     return this.confirmAccountService.execute(request);
   }
 }

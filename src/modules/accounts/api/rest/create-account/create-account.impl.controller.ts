@@ -13,7 +13,7 @@ export class CreateAccountImplController {
     private readonly createAccountService: CreateAccountPortIn,
   ) {}
 
-  async execute(request: AccountRequestDTO): Promise<AccountResponseDTO> {
+  async handle(request: AccountRequestDTO): Promise<AccountResponseDTO> {
     return this.createAccountService.execute(request);
   }
 }

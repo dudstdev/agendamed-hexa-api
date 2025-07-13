@@ -41,6 +41,6 @@ export class ResetPasswordController {
     description: "Internal server error.",
   })
   async resetPassword(@Body() body: ResetPasswordRequestDTO): Promise<void> {
-    return this.resetPasswordImpl.execute(body);
+    return this.resetPasswordImpl.handle(body);
   }
 }

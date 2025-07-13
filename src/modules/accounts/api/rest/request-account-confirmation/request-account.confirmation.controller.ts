@@ -39,6 +39,6 @@ export class RequestAccountConfirmationController {
   async requestAccountConfirmation(
     @Body() body: AccountConfirmationRequestDTO,
   ): Promise<void> {
-    return this.requestAccountConfirmationImpl.execute(body);
+    return this.requestAccountConfirmationImpl.handle(body);
   }
 }

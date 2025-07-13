@@ -39,6 +39,6 @@ export class RequestPasswordResetController {
   async requestPasswordReeset(
     @Body() body: PasswordResetRequestDTO,
   ): Promise<void> {
-    return this.requestPasswordResetImpl.execute(body);
+    return this.requestPasswordResetImpl.handle(body);
   }
 }

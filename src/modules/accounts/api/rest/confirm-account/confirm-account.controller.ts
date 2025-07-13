@@ -40,6 +40,6 @@ export class ConfirmAccountController {
   async confirmAccount(
     @Body() body: ConfirmAccountRequestDTO,
   ): Promise<AccountResponseDTO> {
-    return this.confirmAccountImpl.execute(body);
+    return this.confirmAccountImpl.handle(body);
   }
 }

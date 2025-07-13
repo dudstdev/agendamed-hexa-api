@@ -12,7 +12,7 @@ export class ResetPasswordImplController {
     private readonly resetPasswordService: ResetPasswordPortIn,
   ) {}
 
-  async execute(request: ResetPasswordRequestDTO): Promise<void> {
+  async handle(request: ResetPasswordRequestDTO): Promise<void> {
     return this.resetPasswordService.execute(request);
   }
 }

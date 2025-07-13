@@ -12,7 +12,7 @@ export class RequestAccountConfirmationImplController {
     private readonly requestAccountConfirmationService: RequestAccountConfirmationPortIn,
   ) {}
 
-  async execute(request: AccountConfirmationRequestDTO): Promise<void> {
+  async handle(request: AccountConfirmationRequestDTO): Promise<void> {
     return this.requestAccountConfirmationService.execute(request);
   }
 }
