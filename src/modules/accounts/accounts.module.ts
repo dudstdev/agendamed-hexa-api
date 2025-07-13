@@ -87,5 +87,6 @@ import { PrismaService, RedisService } from "@/shared/infrastructure";
       useClass: BcryptHashGenerator,
     },
   ],
+  exports: ["AccountsPortOut"],
 })
 export class AccountsModule {}
