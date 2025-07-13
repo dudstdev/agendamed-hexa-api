@@ -19,6 +19,7 @@
     "noFallthroughCasesInSwitch": false,
     "paths": {
       "@/accounts/*": ["./src/modules/accounts/*"],
+      "@/sessions/*": ["./src/modules/sessions/*"],
       "@/*": ["./src/*"],
     },
     "types": [
