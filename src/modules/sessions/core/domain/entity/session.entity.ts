@@ -32,6 +32,10 @@ export class SessionEntity extends Entity<SessionProps> {
     return this.props.expiresAt < new Date();
   }
 
+  public isRevoked(): boolean {
+    return !!this.props.revokedAt;
+  }
+
   get accountId(): UniqueEntityID {
     return this.props.accountId;
   }
