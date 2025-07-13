@@ -28,6 +28,10 @@ export class SessionEntity extends Entity<SessionProps> {
     return session;
   }
 
+  public isExpired(): boolean {
+    return this.props.expiresAt < new Date();
+  }
+
   get accountId(): UniqueEntityID {
     return this.props.accountId;
   }
@@ -38,6 +42,10 @@ export class SessionEntity extends Entity<SessionProps> {
 
   get refreshToken(): string {
     return this.props.refreshToken;
+  }
+
+  set refreshToken(value: string) {
+    this.props.refreshToken = value;
   }
 
   get createdAt(): Date {
