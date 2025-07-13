@@ -1,7 +1,7 @@
 import { Inject, Injectable } from "@nestjs/common";
 
 import {
-  PasswordResetDTO,
+  PasswordResetRequestDTO,
   RequestPasswordResetPortIn,
 } from "@/accounts/core/port/in";
 
@@ -12,7 +12,7 @@ export class RequestPasswordResetImplController {
     private readonly requestPasswordResetService: RequestPasswordResetPortIn,
   ) {}
 
-  async execute(request: PasswordResetDTO): Promise<void> {
+  async execute(request: PasswordResetRequestDTO): Promise<void> {
     return this.requestPasswordResetService.execute(request);
   }
 }

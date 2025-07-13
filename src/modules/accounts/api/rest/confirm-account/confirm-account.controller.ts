@@ -2,7 +2,7 @@ import { Body, Controller, HttpCode, HttpStatus, Post } from "@nestjs/common";
 import { ApiResponse, ApiTags } from "@nestjs/swagger";
 
 import { ConfirmAccountImplController } from "@/accounts/api/rest";
-import { ConfirmAccountDTO } from "@/accounts/core/port/in";
+import { ConfirmAccountRequestDTO } from "@/accounts/core/port/in";
 import { AccountResponseDTO } from "@/accounts/core/port/out";
 import { Public } from "@/shared/infrastructure";
 
@@ -38,7 +38,7 @@ export class ConfirmAccountController {
     description: "Internal server error.",
   })
   async confirmAccount(
-    @Body() body: ConfirmAccountDTO,
+    @Body() body: ConfirmAccountRequestDTO,
   ): Promise<AccountResponseDTO> {
     return this.confirmAccountImpl.execute(body);
   }

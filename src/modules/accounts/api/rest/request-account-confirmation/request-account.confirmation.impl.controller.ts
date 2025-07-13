@@ -1,7 +1,7 @@
 import { Inject, Injectable } from "@nestjs/common";
 
 import {
-  AccountConfirmationDTO,
+  AccountConfirmationRequestDTO,
   RequestAccountConfirmationPortIn,
 } from "@/accounts/core/port/in";
 
@@ -12,7 +12,7 @@ export class RequestAccountConfirmationImplController {
     private readonly requestAccountConfirmationService: RequestAccountConfirmationPortIn,
   ) {}
 
-  async execute(request: AccountConfirmationDTO): Promise<void> {
+  async execute(request: AccountConfirmationRequestDTO): Promise<void> {
     return this.requestAccountConfirmationService.execute(request);
   }
 }

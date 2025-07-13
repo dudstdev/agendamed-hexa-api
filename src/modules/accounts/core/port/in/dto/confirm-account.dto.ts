@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsString, Length } from "class-validator";
 
-export class ConfirmAccountDTO {
+export class ConfirmAccountRequestDTO {
   @ApiProperty({
     description:
       "8-digit code sent to the user's email for account confirmation.",
