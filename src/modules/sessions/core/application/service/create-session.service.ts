@@ -13,7 +13,7 @@ import {
 export class CreateSessionService implements CreateSessionPortIn {
   private readonly ACCESS_TOKEN_EXPIRATION = "15m";
   private readonly REFRESH_TOKEN_EXPIRATION = "30d";
-  private readonly SESSION_EXPIRATION_DAYS = 30;
+  private readonly SESSION_EXPIRATION_DAYS = 30 * 24 * 60 * 60 * 1000;
 
   constructor(
     @Inject("AccountsPortOut")
