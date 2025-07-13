@@ -1,12 +1,12 @@
 import { Inject } from "@nestjs/common";
 
 import {
-  RefreshSessionDTO,
   RefreshSessionPortIn,
+  RefreshSessionRequestDTO,
 } from "@/sessions/core/port/in";
 import {
   EncrypterPortOut,
-  SessionOutDTO,
+  SessionOutResponseDTO,
   SessionsPortOut,
 } from "@/sessions/core/port/out";
 
@@ -22,7 +22,9 @@ export class RefreshSessionService implements RefreshSessionPortIn {
     private readonly encrypterPortOut: EncrypterPortOut,
   ) {}
 
-  async execute({ refreshToken }: RefreshSessionDTO): Promise<SessionOutDTO> {
+  async execute({
+    refreshToken,
+  }: RefreshSessionRequestDTO): Promise<SessionOutResponseDTO> {
     const session = await this.sessionsPortOut.findByRefreshToken(refreshToken);
 
     if (!session) {

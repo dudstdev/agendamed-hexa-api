@@ -2,7 +2,7 @@ import { Inject } from "@nestjs/common";
 
 import { TokenEntity, TokenType } from "@/accounts/core/domain";
 import {
-  PasswordResetDTO,
+  PasswordResetRequestDTO,
   RequestPasswordResetPortIn,
 } from "@/accounts/core/port/in";
 import { AccountsPortOut, TokensPortOut } from "@/accounts/core/port/out";
@@ -19,7 +19,7 @@ export class RequestPasswordResetService implements RequestPasswordResetPortIn {
     private readonly tokensPortOut: TokensPortOut,
   ) {}
 
-  async execute({ email }: PasswordResetDTO): Promise<void> {
+  async execute({ email }: PasswordResetRequestDTO): Promise<void> {
     const account = await this.accountsPortOut.findByEmail(email);
 
     if (!account) {

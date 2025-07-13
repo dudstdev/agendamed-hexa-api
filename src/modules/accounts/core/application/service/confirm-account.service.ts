@@ -2,8 +2,8 @@ import { Inject } from "@nestjs/common";
 
 import { TokenType } from "@/accounts/core/domain";
 import {
-  ConfirmAccountDTO,
   ConfirmAccountPortIn,
+  ConfirmAccountRequestDTO,
 } from "@/accounts/core/port/in";
 import {
   AccountResponseDTO,
@@ -20,7 +20,9 @@ export class ConfirmAccountService implements ConfirmAccountPortIn {
     private readonly accountsPortOut: AccountsPortOut,
   ) {}
 
-  async execute({ code }: ConfirmAccountDTO): Promise<AccountResponseDTO> {
+  async execute({
+    code,
+  }: ConfirmAccountRequestDTO): Promise<AccountResponseDTO> {
     const confirmationCode = await this.tokensPortOut.findByCode(code);
 
     if (!confirmationCode) {

@@ -2,7 +2,7 @@ import { Body, Controller, HttpCode, HttpStatus, Post } from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 
 import { RequestPasswordResetImplController } from "@/accounts/api/rest";
-import { PasswordResetDTO } from "@/accounts/core/port/in";
+import { PasswordResetRequestDTO } from "@/accounts/core/port/in";
 import { Public } from "@/shared/infrastructure";
 
 @ApiTags("Accounts")
@@ -36,7 +36,9 @@ export class RequestPasswordResetController {
     status: 500,
     description: "Internal server error.",
   })
-  async requestPasswordReeset(@Body() body: PasswordResetDTO): Promise<void> {
-    return this.requestPasswordResetImpl.execute(body);
+  async requestPasswordReeset(
+    @Body() body: PasswordResetRequestDTO,
+  ): Promise<void> {
+    return this.requestPasswordResetImpl.handle(body);
   }
 }

@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsDate, IsOptional, IsString } from "class-validator";
 
-export class SessionsOutDTO {
+export class SessionsOutResponseDTO {
   @ApiProperty({
     description: "Unique identifier of the session.",
     example: "a3edc5ca-8a6b-49be-aa82-9c479557a1b8",

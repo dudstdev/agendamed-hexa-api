@@ -2,7 +2,7 @@ import { Body, Controller, HttpCode, HttpStatus, Post } from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 
 import { RequestAccountConfirmationImplController } from "@/accounts/api/rest";
-import { AccountConfirmationDTO } from "@/accounts/core/port/in";
+import { AccountConfirmationRequestDTO } from "@/accounts/core/port/in";
 import { Public } from "@/shared/infrastructure";
 
 @ApiTags("Accounts")
@@ -37,8 +37,8 @@ export class RequestAccountConfirmationController {
     description: "Internal server error.",
   })
   async requestAccountConfirmation(
-    @Body() body: AccountConfirmationDTO,
+    @Body() body: AccountConfirmationRequestDTO,
   ): Promise<void> {
-    return this.requestAccountConfirmationImpl.execute(body);
+    return this.requestAccountConfirmationImpl.handle(body);
   }
 }

@@ -1,7 +1,10 @@
 import { Inject } from "@nestjs/common";
 
 import { TokenType } from "@/accounts/core/domain";
-import { ResetPasswordDTO, ResetPasswordPortIn } from "@/accounts/core/port/in";
+import {
+  ResetPasswordPortIn,
+  ResetPasswordRequestDTO,
+} from "@/accounts/core/port/in";
 import {
   AccountsPortOut,
   HashGeneratorPortOut,
@@ -20,7 +23,7 @@ export class ResetPasswordService implements ResetPasswordPortIn {
     private readonly hashGeneratorPortOut: HashGeneratorPortOut,
   ) {}
 
-  async execute({ code, newPassword }: ResetPasswordDTO): Promise<void> {
+  async execute({ code, newPassword }: ResetPasswordRequestDTO): Promise<void> {
     const resetToken = await this.tokensPortOut.findByCode(code);
 
     if (!resetToken) {

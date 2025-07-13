@@ -41,6 +41,6 @@ export class CreateAccountController {
   async createAccount(
     @Body() body: AccountRequestDTO,
   ): Promise<AccountResponseDTO> {
-    return this.createAccountImpl.execute(body);
+    return this.createAccountImpl.handle(body);
   }
 }

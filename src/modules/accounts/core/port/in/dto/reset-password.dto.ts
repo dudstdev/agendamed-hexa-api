@@ -3,7 +3,7 @@ import { IsString, Length } from "class-validator";
 
 import { IsPassword } from "@/shared/infrastructure";
 
-export class ResetPasswordDTO {
+export class ResetPasswordRequestDTO {
   @ApiProperty({
     description: "8-digit code sent to the user's email to reset password.",
     example: "12345678",

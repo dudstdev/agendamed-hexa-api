@@ -2,8 +2,8 @@ import { Body, Controller, HttpCode, HttpStatus, Post } from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 
 import { RefreshSessionImplController } from "@/sessions/api/rest";
-import { RefreshSessionDTO } from "@/sessions/core/port/in";
-import { SessionOutDTO } from "@/sessions/core/port/out";
+import { RefreshSessionRequestDTO } from "@/sessions/core/port/in";
+import { SessionOutResponseDTO } from "@/sessions/core/port/out";
 import { Public } from "@/shared/infrastructure";
 
 @ApiTags("Sessions")
@@ -24,7 +24,7 @@ export class RefreshSessionController {
   @ApiResponse({
     status: 200,
     description: "Tokens refreshed successfully.",
-    type: SessionOutDTO,
+    type: SessionOutResponseDTO,
   })
   @ApiResponse({
     status: 400,
@@ -39,8 +39,8 @@ export class RefreshSessionController {
     description: "Internal server error.",
   })
   async refreshSession(
-    @Body() body: RefreshSessionDTO,
-  ): Promise<SessionOutDTO> {
-    return this.refreshSessionImpl.execute(body);
+    @Body() body: RefreshSessionRequestDTO,
+  ): Promise<SessionOutResponseDTO> {
+    return this.refreshSessionImpl.handle(body);
   }
 }

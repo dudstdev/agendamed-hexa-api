@@ -2,7 +2,7 @@ import { Inject } from "@nestjs/common";
 
 import { TokenEntity, TokenType } from "@/accounts/core/domain";
 import {
-  AccountConfirmationDTO,
+  AccountConfirmationRequestDTO,
   RequestAccountConfirmationPortIn,
 } from "@/accounts/core/port/in";
 import { AccountsPortOut, TokensPortOut } from "@/accounts/core/port/out";
@@ -21,7 +21,7 @@ export class RequestAccountConfirmationService
     private readonly tokensPortOut: TokensPortOut,
   ) {}
 
-  async execute({ email }: AccountConfirmationDTO): Promise<void> {
+  async execute({ email }: AccountConfirmationRequestDTO): Promise<void> {
     const account = await this.accountsPortOut.findByEmail(email);
 
     if (!account) {
