@@ -40,6 +40,6 @@ export class CreateSessionController {
     description: "Internal server error.",
   })
   async createSession(@Body() body: SessionDTO): Promise<SessionOutDTO> {
-    return this.createSessionImpl.execute(body);
+    return this.createSessionImpl.handle(body);
   }
 }

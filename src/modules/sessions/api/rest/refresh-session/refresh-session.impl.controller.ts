@@ -12,7 +12,7 @@ export class RefreshSessionImplController {
     private readonly refreshSessionService: RefreshSessionPortIn,
   ) {}
 
-  async execute(request: RefreshSessionDTO): Promise<SessionOutDTO> {
+  async handle(request: RefreshSessionDTO): Promise<SessionOutDTO> {
     return this.refreshSessionService.execute(request);
   }
 }

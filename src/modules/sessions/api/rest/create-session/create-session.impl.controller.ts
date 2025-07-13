@@ -9,7 +9,7 @@ export class CreateSessionImplController {
     private readonly createSessionService: CreateSessionPortIn,
   ) {}
 
-  async execute(request: SessionDTO): Promise<SessionOutDTO> {
+  async handle(request: SessionDTO): Promise<SessionOutDTO> {
     return this.createSessionService.execute(request);
   }
 }

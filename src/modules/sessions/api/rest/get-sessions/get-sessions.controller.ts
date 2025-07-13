@@ -32,6 +32,6 @@ export class GetSessionsController {
     description: "Internal server error.",
   })
   async getSessions(@Body() body: SessionsDTO): Promise<SessionsOutDTO[]> {
-    return this.getSessionsImpl.execute(body);
+    return this.getSessionsImpl.handle(body);
   }
 }

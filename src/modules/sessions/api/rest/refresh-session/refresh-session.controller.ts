@@ -41,6 +41,6 @@ export class RefreshSessionController {
   async refreshSession(
     @Body() body: RefreshSessionDTO,
   ): Promise<SessionOutDTO> {
-    return this.refreshSessionImpl.execute(body);
+    return this.refreshSessionImpl.handle(body);
   }
 }

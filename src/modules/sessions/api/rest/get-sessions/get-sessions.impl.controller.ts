@@ -9,7 +9,7 @@ export class GetSessionsImplController {
     private readonly getSessionsService: GetSessionsPortIn,
   ) {}
 
-  async execute(request: SessionsDTO): Promise<SessionsOutDTO[]> {
+  async handle(request: SessionsDTO): Promise<SessionsOutDTO[]> {
     return this.getSessionsService.execute(request);
   }
 }

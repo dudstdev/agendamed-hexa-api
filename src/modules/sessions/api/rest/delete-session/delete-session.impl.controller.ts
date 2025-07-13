@@ -8,7 +8,7 @@ export class DeleteSessionImplController {
     private readonly deleteSessionService: DeleteSessionPortIn,
   ) {}
 
-  async execute(request: DeleteSessionDTO): Promise<void> {
+  async handle(request: DeleteSessionDTO): Promise<void> {
     return this.deleteSessionService.execute(request);
   }
 }

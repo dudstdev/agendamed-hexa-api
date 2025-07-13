@@ -34,7 +34,7 @@ export class DeleteSessionController {
     status: 500,
     description: "Internal server error.",
   })
-  async delete(@Body() body: DeleteSessionDTO): Promise<void> {
-    return this.deleteSessionImpl.execute(body);
+  async deleteSession(@Body() body: DeleteSessionDTO): Promise<void> {
+    return this.deleteSessionImpl.handle(body);
   }
 }
