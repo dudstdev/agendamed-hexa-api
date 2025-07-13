@@ -2,8 +2,8 @@ import { Body, Controller, HttpCode, HttpStatus, Post } from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 
 import { CreateSessionImplController } from "@/sessions/api/rest";
-import { SessionDTO } from "@/sessions/core/port/in";
-import { SessionOutDTO } from "@/sessions/core/port/out";
+import { SessionRequestDTO } from "@/sessions/core/port/in";
+import { SessionOutResponseDTO } from "@/sessions/core/port/out";
 import { Public } from "@/shared/infrastructure";
 
 @ApiTags("Sessions")
@@ -25,7 +25,7 @@ export class CreateSessionController {
     status: 201,
     description:
       "Session successfully created. Returns access and refresh tokens.",
-    type: SessionOutDTO,
+    type: SessionOutResponseDTO,
   })
   @ApiResponse({
     status: 401,
@@ -39,7 +39,9 @@ export class CreateSessionController {
     status: 500,
     description: "Internal server error.",
   })
-  async createSession(@Body() body: SessionDTO): Promise<SessionOutDTO> {
+  async createSession(
+    @Body() body: SessionRequestDTO,
+  ): Promise<SessionOutResponseDTO> {
     return this.createSessionImpl.handle(body);
   }
 }

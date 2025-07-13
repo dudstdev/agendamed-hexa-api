@@ -1,6 +1,9 @@
 import { Inject } from "@nestjs/common";
 
-import { DeleteSessionDTO, DeleteSessionPortIn } from "@/sessions/core/port/in";
+import {
+  DeleteSessionPortIn,
+  DeleteSessionRequestDTO,
+} from "@/sessions/core/port/in";
 import { SessionsPortOut } from "@/sessions/core/port/out";
 
 export class DeleteSessionService implements DeleteSessionPortIn {
@@ -9,7 +12,7 @@ export class DeleteSessionService implements DeleteSessionPortIn {
     private readonly sessionsPortOut: SessionsPortOut,
   ) {}
 
-  async execute({ sessionId }: DeleteSessionDTO): Promise<void> {
+  async execute({ sessionId }: DeleteSessionRequestDTO): Promise<void> {
     const session = await this.sessionsPortOut.findById(sessionId);
 
     if (!session) {

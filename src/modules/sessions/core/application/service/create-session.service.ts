@@ -2,11 +2,14 @@ import { Inject } from "@nestjs/common";
 
 import { AccountsPortOut } from "@/accounts/core/port/out";
 import { SessionEntity } from "@/sessions/core/domain";
-import { CreateSessionPortIn, SessionDTO } from "@/sessions/core/port/in";
+import {
+  CreateSessionPortIn,
+  SessionRequestDTO,
+} from "@/sessions/core/port/in";
 import {
   EncrypterPortOut,
   HashComparerPortOut,
-  SessionOutDTO,
+  SessionOutResponseDTO,
   SessionsPortOut,
 } from "@/sessions/core/port/out";
 
@@ -35,7 +38,7 @@ export class CreateSessionService implements CreateSessionPortIn {
     clientId,
     ipAddress,
     userAgent,
-  }: SessionDTO): Promise<SessionOutDTO> {
+  }: SessionRequestDTO): Promise<SessionOutResponseDTO> {
     const account = await this.accountsPortOut.findByEmail(email);
 
     if (!account) {

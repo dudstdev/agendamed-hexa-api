@@ -2,8 +2,8 @@ import { Body, Controller, Get, HttpCode, HttpStatus } from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 
 import { GetSessionsImplController } from "@/sessions/api/rest";
-import { SessionsDTO } from "@/sessions/core/port/in";
-import { SessionsOutDTO } from "@/sessions/core/port/out";
+import { SessionsRequestDTO } from "@/sessions/core/port/in";
+import { SessionsOutResponseDTO } from "@/sessions/core/port/out";
 import { Public } from "@/shared/infrastructure";
 
 @ApiTags("Sessions")
@@ -21,7 +21,7 @@ export class GetSessionsController {
   @ApiResponse({
     status: 200,
     description: "List of sessions retrieved successfully.",
-    type: SessionsOutDTO,
+    type: SessionsOutResponseDTO,
   })
   @ApiResponse({
     status: 400,
@@ -31,7 +31,9 @@ export class GetSessionsController {
     status: 500,
     description: "Internal server error.",
   })
-  async getSessions(@Body() body: SessionsDTO): Promise<SessionsOutDTO[]> {
+  async getSessions(
+    @Body() body: SessionsRequestDTO,
+  ): Promise<SessionsOutResponseDTO[]> {
     return this.getSessionsImpl.handle(body);
   }
 }

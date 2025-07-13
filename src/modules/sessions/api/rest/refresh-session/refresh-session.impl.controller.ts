@@ -1,10 +1,10 @@
 import { Inject } from "@nestjs/common";
 
 import {
-  RefreshSessionDTO,
   RefreshSessionPortIn,
+  RefreshSessionRequestDTO,
 } from "@/sessions/core/port/in";
-import { SessionOutDTO } from "@/sessions/core/port/out";
+import { SessionOutResponseDTO } from "@/sessions/core/port/out";
 
 export class RefreshSessionImplController {
   constructor(
@@ -12,7 +12,9 @@ export class RefreshSessionImplController {
     private readonly refreshSessionService: RefreshSessionPortIn,
   ) {}
 
-  async handle(request: RefreshSessionDTO): Promise<SessionOutDTO> {
+  async handle(
+    request: RefreshSessionRequestDTO,
+  ): Promise<SessionOutResponseDTO> {
     return this.refreshSessionService.execute(request);
   }
 }

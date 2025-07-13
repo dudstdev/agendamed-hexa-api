@@ -1,6 +1,9 @@
 import { Inject } from "@nestjs/common";
 
-import { DeleteSessionDTO, DeleteSessionPortIn } from "@/sessions/core/port/in";
+import {
+  DeleteSessionPortIn,
+  DeleteSessionRequestDTO,
+} from "@/sessions/core/port/in";
 
 export class DeleteSessionImplController {
   constructor(
@@ -8,7 +11,7 @@ export class DeleteSessionImplController {
     private readonly deleteSessionService: DeleteSessionPortIn,
   ) {}
 
-  async handle(request: DeleteSessionDTO): Promise<void> {
+  async handle(request: DeleteSessionRequestDTO): Promise<void> {
     return this.deleteSessionService.execute(request);
   }
 }

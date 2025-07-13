@@ -1,6 +1,6 @@
-import { SessionDTO } from "@/sessions/core/port/in";
-import { SessionOutDTO } from "@/sessions/core/port/out";
+import { SessionRequestDTO } from "@/sessions/core/port/in";
+import { SessionOutResponseDTO } from "@/sessions/core/port/out";
 
 export interface CreateSessionPortIn {
-  execute(request: SessionDTO): Promise<SessionOutDTO>;
+  execute(request: SessionRequestDTO): Promise<SessionOutResponseDTO>;
 }

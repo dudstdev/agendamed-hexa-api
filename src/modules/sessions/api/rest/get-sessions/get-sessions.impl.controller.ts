@@ -1,7 +1,7 @@
 import { Inject } from "@nestjs/common";
 
-import { GetSessionsPortIn, SessionsDTO } from "@/sessions/core/port/in";
-import { SessionsOutDTO } from "@/sessions/core/port/out";
+import { GetSessionsPortIn, SessionsRequestDTO } from "@/sessions/core/port/in";
+import { SessionsOutResponseDTO } from "@/sessions/core/port/out";
 
 export class GetSessionsImplController {
   constructor(
@@ -9,7 +9,7 @@ export class GetSessionsImplController {
     private readonly getSessionsService: GetSessionsPortIn,
   ) {}
 
-  async handle(request: SessionsDTO): Promise<SessionsOutDTO[]> {
+  async handle(request: SessionsRequestDTO): Promise<SessionsOutResponseDTO[]> {
     return this.getSessionsService.execute(request);
   }
 }

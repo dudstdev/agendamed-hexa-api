@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsString } from "class-validator";
 
-export class SessionOutDTO {
+export class SessionOutResponseDTO {
   @ApiProperty({
     description:
       "JWT token utilizado para autenticação nas próximas requisições (válido por 15 minutos).",

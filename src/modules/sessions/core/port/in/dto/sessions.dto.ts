@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsString } from "class-validator";
 
-export class SessionsDTO {
+export class SessionsRequestDTO {
   @ApiProperty({
     description:
       "The unique identifier of the account whose sessions you want to retrieve.",

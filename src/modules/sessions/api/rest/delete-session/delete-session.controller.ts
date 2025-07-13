@@ -2,7 +2,7 @@ import { Body, Controller, Delete, HttpCode, HttpStatus } from "@nestjs/common";
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
 
 import { DeleteSessionImplController } from "@/sessions/api/rest";
-import { DeleteSessionDTO } from "@/sessions/core/port/in";
+import { DeleteSessionRequestDTO } from "@/sessions/core/port/in";
 
 @ApiTags("Sessions")
 @Controller("/sessions")
@@ -34,7 +34,7 @@ export class DeleteSessionController {
     status: 500,
     description: "Internal server error.",
   })
-  async deleteSession(@Body() body: DeleteSessionDTO): Promise<void> {
+  async deleteSession(@Body() body: DeleteSessionRequestDTO): Promise<void> {
     return this.deleteSessionImpl.handle(body);
   }
 }

@@ -1,7 +1,10 @@
 import { Inject } from "@nestjs/common";
 
-import { GetSessionsPortIn, SessionsDTO } from "@/sessions/core/port/in";
-import { SessionsOutDTO, SessionsPortOut } from "@/sessions/core/port/out";
+import { GetSessionsPortIn, SessionsRequestDTO } from "@/sessions/core/port/in";
+import {
+  SessionsOutResponseDTO,
+  SessionsPortOut,
+} from "@/sessions/core/port/out";
 
 export class GetSessionsService implements GetSessionsPortIn {
   constructor(
@@ -9,7 +12,9 @@ export class GetSessionsService implements GetSessionsPortIn {
     private readonly sessionsPortOut: SessionsPortOut,
   ) {}
 
-  async execute({ accountid }: SessionsDTO): Promise<SessionsOutDTO[]> {
+  async execute({
+    accountid,
+  }: SessionsRequestDTO): Promise<SessionsOutResponseDTO[]> {
     const sessions =
       await this.sessionsPortOut.findSessionsByAccountId(accountid);
 
