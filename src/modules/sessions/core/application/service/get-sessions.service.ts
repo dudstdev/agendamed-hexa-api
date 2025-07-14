@@ -14,12 +14,12 @@ export class GetSessionsService implements GetSessionsPortIn {
   ) {}
 
   async execute({
-    accountid,
+    accountId,
   }: SessionsRequestDTO): Promise<
     Either<DefaultErrorException, SessionsListOutResponseDTO>
   > {
     const sessions =
-      await this.sessionsPortOut.findSessionsByAccountId(accountid);
+      await this.sessionsPortOut.findSessionsByAccountId(accountId);
 
     const activeSessions = sessions.filter(
       (session) => !session.isRevoked() && !session.isExpired(),

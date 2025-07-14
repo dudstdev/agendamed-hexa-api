@@ -8,5 +8,5 @@ export class SessionsRequestDTO {
     example: "e301c692-139f-4c2a-9143-7178656a48b3",
   })
   @IsString()
-  accountid: string;
+  accountId: string;
 }
