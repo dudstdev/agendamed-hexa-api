@@ -35,7 +35,7 @@ export class RequestAccountConfirmationService
   async execute({
     email,
   }: AccountConfirmationRequestDTO): Promise<
-    Either<AccountNotFoundException, void>
+    Either<AccountNotFoundException | AccountAlreadyConfirmedException, void>
   > {
     const account = await this.accountsPortOut.findByEmail(email);
 
