@@ -10,6 +10,17 @@ import {
   HashGeneratorPortOut,
   TokensPortOut,
 } from "@/accounts/core/port/out";
+import {
+  AccountNotFoundException,
+  AccountNotFoundFailure,
+  Either,
+  InvalidOrExpiredTokenException,
+  InvalidOrExpiredTokenFailure,
+  left,
+  right,
+  TokenNotFoundException,
+  TokenNotFoundFailure,
+} from "@/shared/exception";
 
 export class ResetPasswordService implements ResetPasswordPortIn {
   constructor(
@@ -23,19 +34,46 @@ export class ResetPasswordService implements ResetPasswordPortIn {
     private readonly hashGeneratorPortOut: HashGeneratorPortOut,
   ) {}
 
-  async execute({ code, newPassword }: ResetPasswordRequestDTO): Promise<void> {
+  async execute({
+    code,
+    newPassword,
+  }: ResetPasswordRequestDTO): Promise<
+    Either<
+      | TokenNotFoundException
+      | InvalidOrExpiredTokenException
+      | AccountNotFoundException,
+      void
+    >
+  > {
     const resetToken = await this.tokensPortOut.findByCode(code);
 
     if (!resetToken) {
-      throw new Error("Unauthorized");
+      return left(
+        new TokenNotFoundException({
+          token: { code },
+          message: TokenNotFoundFailure.TOKEN_NOT_FOUND_FAILURE,
+        }),
+      );
     }
 
     if (resetToken.isExpired()) {
-      throw new Error("Unauthorized");
+      return left(
+        new InvalidOrExpiredTokenException({
+          token: { code },
+          message:
+            InvalidOrExpiredTokenFailure.INVALID_OR_EXPIRED_TOKEN_FAILURE,
+        }),
+      );
     }
 
     if (resetToken.type !== TokenType.PASSWORD_RESET) {
-      throw new Error("Unauthorized");
+      return left(
+        new InvalidOrExpiredTokenException({
+          token: { code },
+          message:
+            InvalidOrExpiredTokenFailure.INVALID_OR_EXPIRED_TOKEN_FAILURE,
+        }),
+      );
     }
 
     const account = await this.accountsPortOut.findById(
@@ -43,7 +81,12 @@ export class ResetPasswordService implements ResetPasswordPortIn {
     );
 
     if (!account) {
-      throw new Error("Unauthorized");
+      return left(
+        new AccountNotFoundException({
+          account: {},
+          message: AccountNotFoundFailure.ACCOUNT_NOT_FOUND_FAILURE,
+        }),
+      );
     }
 
     const hashedPassword = await this.hashGeneratorPortOut.hash(newPassword);
@@ -52,5 +95,7 @@ export class ResetPasswordService implements ResetPasswordPortIn {
 
     await this.accountsPortOut.save(account);
     await this.tokensPortOut.delete(resetToken);
+
+    return right(undefined);
   }
 }
