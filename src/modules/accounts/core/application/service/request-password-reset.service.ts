@@ -6,6 +6,13 @@ import {
   RequestPasswordResetPortIn,
 } from "@/accounts/core/port/in";
 import { AccountsPortOut, TokensPortOut } from "@/accounts/core/port/out";
+import {
+  AccountNotFoundException,
+  AccountNotFoundFailure,
+  Either,
+  left,
+  right,
+} from "@/shared/exception";
 import { generateNumericPin } from "@/shared/utils";
 
 export class RequestPasswordResetService implements RequestPasswordResetPortIn {
@@ -19,11 +26,18 @@ export class RequestPasswordResetService implements RequestPasswordResetPortIn {
     private readonly tokensPortOut: TokensPortOut,
   ) {}
 
-  async execute({ email }: PasswordResetRequestDTO): Promise<void> {
+  async execute({
+    email,
+  }: PasswordResetRequestDTO): Promise<Either<AccountNotFoundException, void>> {
     const account = await this.accountsPortOut.findByEmail(email);
 
     if (!account) {
-      throw new Error("Business Exception");
+      return left(
+        new AccountNotFoundException({
+          account: {},
+          message: AccountNotFoundFailure.ACCOUNT_NOT_FOUND_FAILURE,
+        }),
+      );
     }
 
     const confirmationToken = TokenEntity.create({
@@ -34,5 +48,7 @@ export class RequestPasswordResetService implements RequestPasswordResetPortIn {
     });
 
     await this.tokensPortOut.create(confirmationToken);
+
+    return right(undefined);
   }
 }

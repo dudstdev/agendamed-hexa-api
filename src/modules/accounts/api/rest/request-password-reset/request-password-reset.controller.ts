@@ -6,7 +6,7 @@ import { PasswordResetRequestDTO } from "@/accounts/core/port/in";
 import { Public } from "@/shared/infrastructure";
 
 @ApiTags("Accounts")
-@Controller("/accounts/password-reset/request")
+@Controller("/accounts/password-reset")
 @Public()
 export class RequestPasswordResetController {
   constructor(
@@ -16,25 +16,27 @@ export class RequestPasswordResetController {
   @Post()
   @HttpCode(HttpStatus.ACCEPTED)
   @ApiOperation({
-    summary: "Request password reset",
+    summary: "Solicita redefinição de senha",
     description:
-      "Requests a password reset by sending a reset code to the user's email.",
+      "Gera e envia um código de redefinição de senha para o e-mail associado à conta.",
   })
   @ApiResponse({
     status: 202,
-    description: "Password reset request accepted and will be processed.",
+    description:
+      "Solicitação de redefinição de senha aceita. Um código será enviado por e-mail.",
   })
   @ApiResponse({
     status: 400,
-    description: "Bad request. The email may be invalid or missing.",
+    description:
+      "Requisição inválida. O e-mail pode estar ausente ou malformado.",
   })
   @ApiResponse({
     status: 404,
-    description: "Account not found with the provided email.",
+    description: "Nenhuma conta encontrada com o e-mail informado.",
   })
   @ApiResponse({
     status: 500,
-    description: "Internal server error.",
+    description: "Erro inesperado no servidor ao processar a solicitação.",
   })
   async requestPasswordReeset(
     @Body() body: PasswordResetRequestDTO,
