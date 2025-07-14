@@ -2,7 +2,7 @@ import { SessionEntity } from "@/sessions/core/domain";
 
 export interface SessionsPortOut {
   findById(sessionId: string): Promise<SessionEntity | null>;
-  findSessionsByAccountId(accountid: string): Promise<SessionEntity[]>;
+  findSessionsByAccountId(accountId: string): Promise<SessionEntity[]>;
   findByAccountIdAndClientId(
     accountId: string,
     clientId: string,

@@ -2,13 +2,12 @@ import { Body, Controller, Get, HttpCode, HttpStatus } from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 
 import { GetSessionsImplController } from "@/sessions/api/rest";
-import { SessionsRequestDTO } from "@/sessions/core/port/in";
 import { SessionsListOutResponseDTO } from "@/sessions/core/port/out";
-import { Public } from "@/shared/infrastructure";
+import { TokenPayload } from "@/sessions/infrastructure/auth";
+import { CurrentUser } from "@/shared/infrastructure/nest/decorators/current-user.decorator";
 
 @ApiTags("Sessions")
 @Controller("/sessions")
-@Public()
 export class GetSessionsController {
   constructor(private readonly getSessionsImpl: GetSessionsImplController) {}
 
@@ -33,8 +32,10 @@ export class GetSessionsController {
     description: "Erro inesperado no servidor ao processar a solicitação.",
   })
   async getSessions(
-    @Body() body: SessionsRequestDTO,
+    @CurrentUser() user: TokenPayload,
   ): Promise<SessionsListOutResponseDTO> {
-    return this.getSessionsImpl.handle(body);
+    const accountId = user.sub;
+
+    return this.getSessionsImpl.handle({ accountId: accountId });
   }
 }
