@@ -2,9 +2,10 @@ import { Inject } from "@nestjs/common";
 
 import { GetSessionsPortIn, SessionsRequestDTO } from "@/sessions/core/port/in";
 import {
-  SessionsOutResponseDTO,
+  SessionsListOutResponseDTO,
   SessionsPortOut,
 } from "@/sessions/core/port/out";
+import { DefaultErrorException, Either, right } from "@/shared/exception";
 
 export class GetSessionsService implements GetSessionsPortIn {
   constructor(
@@ -14,7 +15,9 @@ export class GetSessionsService implements GetSessionsPortIn {
 
   async execute({
     accountid,
-  }: SessionsRequestDTO): Promise<SessionsOutResponseDTO[]> {
+  }: SessionsRequestDTO): Promise<
+    Either<DefaultErrorException, SessionsListOutResponseDTO>
+  > {
     const sessions =
       await this.sessionsPortOut.findSessionsByAccountId(accountid);
 
@@ -22,16 +25,18 @@ export class GetSessionsService implements GetSessionsPortIn {
       (session) => !session.isRevoked() && !session.isExpired(),
     );
 
-    return activeSessions.map((session) => ({
-      id: session.id.toString(),
-      accountId: session.accountId.toString(),
-      clientId: session.clientId,
-      refreshToken: session.refreshToken,
-      createdAt: session.createdAt,
-      expiresAt: session.expiresAt,
-      revokedAt: session.revokedAt ?? null,
-      ipAddress: session.ipAddress ?? null,
-      userAgent: session.userAgent ?? null,
-    }));
+    return right({
+      sessions: activeSessions.map((session) => ({
+        id: session.id.toString(),
+        accountId: session.accountId.toString(),
+        clientId: session.clientId,
+        refreshToken: session.refreshToken,
+        createdAt: session.createdAt,
+        expiresAt: session.expiresAt,
+        revokedAt: session.revokedAt ?? null,
+        ipAddress: session.ipAddress ?? null,
+        userAgent: session.userAgent ?? null,
+      })),
+    });
   }
 }

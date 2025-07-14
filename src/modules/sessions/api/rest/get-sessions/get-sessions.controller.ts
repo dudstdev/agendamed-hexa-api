@@ -3,7 +3,7 @@ import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 
 import { GetSessionsImplController } from "@/sessions/api/rest";
 import { SessionsRequestDTO } from "@/sessions/core/port/in";
-import { SessionsOutResponseDTO } from "@/sessions/core/port/out";
+import { SessionsListOutResponseDTO } from "@/sessions/core/port/out";
 import { Public } from "@/shared/infrastructure";
 
 @ApiTags("Sessions")
@@ -15,25 +15,26 @@ export class GetSessionsController {
   @Get()
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
-    summary: "Get active sessions",
-    description: "Returns a list of active sessions for the given accountId.",
+    summary: "Consulta sessões ativas",
+    description:
+      "Retorna uma lista com todas as sessões ativas vinculadas ao identificador da conta informado.",
   })
   @ApiResponse({
     status: 200,
-    description: "List of sessions retrieved successfully.",
-    type: SessionsOutResponseDTO,
+    description: "Sessões recuperadas com sucesso.",
+    type: SessionsListOutResponseDTO,
   })
   @ApiResponse({
     status: 400,
-    description: "Invalid accountId format.",
+    description: "Formato inválido do identificador da conta.",
   })
   @ApiResponse({
     status: 500,
-    description: "Internal server error.",
+    description: "Erro inesperado no servidor ao processar a solicitação.",
   })
   async getSessions(
     @Body() body: SessionsRequestDTO,
-  ): Promise<SessionsOutResponseDTO[]> {
+  ): Promise<SessionsListOutResponseDTO> {
     return this.getSessionsImpl.handle(body);
   }
 }
