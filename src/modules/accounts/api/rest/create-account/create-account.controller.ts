@@ -17,26 +17,26 @@ export class CreateAccountController {
   @Post()
   @HttpCode(HttpStatus.CREATED)
   @ApiOperation({
-    summary: "Create a new account",
-    description: "Creates a new account with the provided email and password.",
+    summary: "Cria uma nova conta",
+    description: "Cria uma conta no sistema com o e-mail e senha fornecidos.",
   })
   @ApiResponse({
     status: 201,
-    description: "Successfully created account.",
+    description: "Conta criada com sucesso.",
     type: AccountResponseDTO,
   })
   @ApiResponse({
     status: 400,
     description:
-      "Validation failed. Invalid email format or password does not meet security requirements (minimum 8 characters with uppercase, lowercase, number and symbol).",
+      "Requisição malformada ou dados inválidos fornecidos (ex: e-mail ausente ou senha com formato incorreto).",
   })
   @ApiResponse({
     status: 409,
-    description: "Email already exists.",
+    description: "Já existe uma conta cadastrada com o e-mail informado.",
   })
   @ApiResponse({
     status: 500,
-    description: "Internal server error.",
+    description: "Erro inesperado no servidor ao processar a solicitação.",
   })
   async createAccount(
     @Body() body: AccountRequestDTO,

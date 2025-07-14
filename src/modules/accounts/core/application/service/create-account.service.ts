@@ -10,6 +10,11 @@ import {
   AccountsPortOut,
   HashGeneratorPortOut,
 } from "@/accounts/core/port/out";
+import { Either, left, right } from "@/shared/exception";
+import {
+  AccountAlreadyExistsException,
+  AccountAlreadyExistsFailure,
+} from "@/shared/exception/accounts/account-already-exists.exception";
 
 export class CreateAccountService implements CreateAccountPortIn {
   constructor(
@@ -23,11 +28,18 @@ export class CreateAccountService implements CreateAccountPortIn {
   async execute({
     email,
     password,
-  }: AccountRequestDTO): Promise<AccountResponseDTO> {
+  }: AccountRequestDTO): Promise<
+    Either<AccountAlreadyExistsException, AccountResponseDTO>
+  > {
     const accountWithSameEmail = await this.accountsPortOut.findByEmail(email);
 
     if (accountWithSameEmail) {
-      throw new Error("Business Exception");
+      return left(
+        new AccountAlreadyExistsException({
+          account: { email },
+          message: AccountAlreadyExistsFailure.ACCOUNT_ALREADY_EXISTS_FAILURE,
+        }),
+      );
     }
 
     const hashedPassword = await this.hashGeneratorPortOut.hash(password);
@@ -39,12 +51,12 @@ export class CreateAccountService implements CreateAccountPortIn {
 
     await this.accountsPortOut.create(account);
 
-    return {
+    return right({
       id: account.id.toString(),
       email: account.email,
       isEmailVerified: account.isEmailVerified,
       createdAt: account.createdAt.toISOString(),
       updatedAt: account.updatedAt?.toISOString() ?? null,
-    };
+    });
   }
 }
