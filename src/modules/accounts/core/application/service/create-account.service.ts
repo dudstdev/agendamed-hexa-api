@@ -14,7 +14,7 @@ import { Either, left, right } from "@/shared/exception";
 import {
   AccountAlreadyExistsException,
   AccountAlreadyExistsFailure,
-} from "@/shared/exception/accounts/account-already-exists.exception";
+} from "@/shared/exception";
 
 export class CreateAccountService implements CreateAccountPortIn {
   constructor(
