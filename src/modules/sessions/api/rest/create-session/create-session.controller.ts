@@ -17,27 +17,29 @@ export class CreateSessionController {
   @Post()
   @HttpCode(HttpStatus.CREATED)
   @ApiOperation({
-    summary: "Create session (login)",
+    summary: "Autenticação de usuário (login)",
     description:
-      "Creates a new session using user credentials. Returns access and refresh tokens.",
+      "Autentica um usuário com e-mail e senha. Retorna os tokens de acesso e atualização (refresh token).",
   })
   @ApiResponse({
     status: 201,
     description:
-      "Session successfully created. Returns access and refresh tokens.",
+      "Sessão criada com sucesso. Os tokens de autenticação foram gerados.",
     type: SessionOutResponseDTO,
   })
   @ApiResponse({
     status: 401,
-    description: "Invalid credentials",
+    description:
+      "Credenciais inválidas. Verifique o e-mail e a senha informados.",
   })
   @ApiResponse({
     status: 403,
-    description: "Email not verified. Account is restricted.",
+    description: "A conta informada ainda não foi verificada por e-mail.",
   })
   @ApiResponse({
     status: 500,
-    description: "Internal server error.",
+    description:
+      "Erro inesperado no servidor ao processar a solicitação de login.",
   })
   async createSession(
     @Body() body: SessionRequestDTO,

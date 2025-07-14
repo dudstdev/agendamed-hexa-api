@@ -12,6 +12,15 @@ import {
   SessionOutResponseDTO,
   SessionsPortOut,
 } from "@/sessions/core/port/out";
+import {
+  Either,
+  left,
+  right,
+  UnverifiedAccountException,
+  UnverifiedAccountFailure,
+  WrongCredentialsException,
+  WrongCredentialsFailure,
+} from "@/shared/exception";
 
 export class CreateSessionService implements CreateSessionPortIn {
   private readonly ACCESS_TOKEN_EXPIRATION = "15m";
@@ -38,15 +47,29 @@ export class CreateSessionService implements CreateSessionPortIn {
     clientId,
     ipAddress,
     userAgent,
-  }: SessionRequestDTO): Promise<SessionOutResponseDTO> {
+  }: SessionRequestDTO): Promise<
+    Either<
+      WrongCredentialsException | UnverifiedAccountException,
+      SessionOutResponseDTO
+    >
+  > {
     const account = await this.accountsPortOut.findByEmail(email);
 
     if (!account) {
-      throw new Error("Unauthorized");
+      return left(
+        new WrongCredentialsException(
+          WrongCredentialsFailure.WRONG_CREDENTIALS,
+        ),
+      );
     }
 
     if (!account.isEmailVerified) {
-      throw new Error("Business Exception");
+      return left(
+        new UnverifiedAccountException({
+          account: { email },
+          message: UnverifiedAccountFailure.UNVERIFIED_ACCOUNT,
+        }),
+      );
     }
 
     const isPasswordValid = await this.hashComparerPortOut.compare(
@@ -55,7 +78,11 @@ export class CreateSessionService implements CreateSessionPortIn {
     );
 
     if (!isPasswordValid) {
-      throw new Error("Unauthorized");
+      return left(
+        new WrongCredentialsException(
+          WrongCredentialsFailure.WRONG_CREDENTIALS,
+        ),
+      );
     }
 
     const existingSession =
@@ -89,9 +116,9 @@ export class CreateSessionService implements CreateSessionPortIn {
 
     await this.sessionsPortOut.create(session);
 
-    return {
+    return right({
       refreshToken,
       accessToken,
-    };
+    });
   }
 }
