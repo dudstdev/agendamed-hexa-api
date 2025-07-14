@@ -7,15 +7,13 @@ import {
 } from "@/accounts/core/port/in";
 import { AccountsPortOut, TokensPortOut } from "@/accounts/core/port/out";
 import {
+  AccountAlreadyConfirmedException,
+  AccountAlreadyConfirmedFailure,
   AccountNotFoundException,
   AccountNotFoundFailure,
   Either,
   left,
   right,
-} from "@/shared/exception";
-import {
-  AccountAlreadyConfirmedException,
-  AccountAlreadyConfirmedFailure,
 } from "@/shared/exception";
 import { generateNumericPin } from "@/shared/utils";
 

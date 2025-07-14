@@ -10,10 +10,12 @@ import {
   AccountsPortOut,
   HashGeneratorPortOut,
 } from "@/accounts/core/port/out";
-import { Either, left, right } from "@/shared/exception";
 import {
   AccountAlreadyExistsException,
   AccountAlreadyExistsFailure,
+  Either,
+  left,
+  right,
 } from "@/shared/exception";
 
 export class CreateAccountService implements CreateAccountPortIn {
