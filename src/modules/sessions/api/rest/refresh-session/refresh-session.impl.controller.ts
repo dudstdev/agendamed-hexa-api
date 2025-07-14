@@ -15,6 +15,12 @@ export class RefreshSessionImplController {
   async handle(
     request: RefreshSessionRequestDTO,
   ): Promise<SessionOutResponseDTO> {
-    return this.refreshSessionService.execute(request);
+    const response = await this.refreshSessionService.execute(request);
+
+    if (response.isLeft()) {
+      throw response.value;
+    }
+
+    return response.value;
   }
 }

@@ -9,6 +9,17 @@ import {
   SessionOutResponseDTO,
   SessionsPortOut,
 } from "@/sessions/core/port/out";
+import {
+  Either,
+  left,
+  right,
+  SessionAlreadyExpiredException,
+  SessionAlreadyExpiredFailure,
+  SessionAlreadyRevokedException,
+  SessionAlreadyRevokedFailure,
+  SessionNotFoundException,
+  SessionNotFoundFailure,
+} from "@/shared/exception";
 
 export class RefreshSessionService implements RefreshSessionPortIn {
   private readonly ACCESS_TOKEN_EXPIRATION = "15m";
@@ -24,19 +35,41 @@ export class RefreshSessionService implements RefreshSessionPortIn {
 
   async execute({
     refreshToken,
-  }: RefreshSessionRequestDTO): Promise<SessionOutResponseDTO> {
+  }: RefreshSessionRequestDTO): Promise<
+    Either<
+      | SessionNotFoundException
+      | SessionAlreadyRevokedException
+      | SessionAlreadyExpiredException,
+      SessionOutResponseDTO
+    >
+  > {
     const session = await this.sessionsPortOut.findByRefreshToken(refreshToken);
 
     if (!session) {
-      throw new Error();
+      return left(
+        new SessionNotFoundException({
+          session: { refreshToken },
+          message: SessionNotFoundFailure.SESSION_NOT_FOUND,
+        }),
+      );
     }
 
-    if (session.revokedAt) {
-      throw new Error();
+    if (session.isRevoked()) {
+      return left(
+        new SessionAlreadyRevokedException({
+          session: { id: session.id },
+          message: SessionAlreadyRevokedFailure.SESSION_ALREADY_REVOKED,
+        }),
+      );
     }
 
     if (session.isExpired()) {
-      throw new Error();
+      return left(
+        new SessionAlreadyExpiredException({
+          session: { id: session.id },
+          message: SessionAlreadyExpiredFailure.SESSION_ALREADY_EXPIRED,
+        }),
+      );
     }
 
     const newRefreshToken = await this.encrypterPortOut.encrypt(
@@ -53,9 +86,9 @@ export class RefreshSessionService implements RefreshSessionPortIn {
 
     await this.sessionsPortOut.save(session);
 
-    return {
+    return right({
       refreshToken: newRefreshToken,
       accessToken: newAccessToken,
-    };
+    });
   }
 }
