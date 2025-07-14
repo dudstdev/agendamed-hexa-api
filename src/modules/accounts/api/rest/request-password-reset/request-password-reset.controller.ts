@@ -28,7 +28,7 @@ export class RequestPasswordResetController {
   @ApiResponse({
     status: 400,
     description:
-      "Requisição inválida. O e-mail pode estar ausente ou malformado.",
+      "O e-mail informado está ausente ou possui um formato inválido.",
   })
   @ApiResponse({
     status: 404,
