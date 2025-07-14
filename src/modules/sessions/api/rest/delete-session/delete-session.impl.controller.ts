@@ -12,6 +12,12 @@ export class DeleteSessionImplController {
   ) {}
 
   async handle(request: DeleteSessionRequestDTO): Promise<void> {
-    return this.deleteSessionService.execute(request);
+    const response = await this.deleteSessionService.execute(request);
+
+    if (response.isLeft()) {
+      throw response.value;
+    }
+
+    return response.value;
   }
 }
