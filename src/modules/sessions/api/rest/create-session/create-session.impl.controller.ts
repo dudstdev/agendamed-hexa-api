@@ -13,6 +13,12 @@ export class CreateSessionImplController {
   ) {}
 
   async handle(request: SessionRequestDTO): Promise<SessionOutResponseDTO> {
-    return this.createSessionService.execute(request);
+    const response = await this.createSessionService.execute(request);
+
+    if (response.isLeft()) {
+      throw response.value;
+    }
+
+    return response.value;
   }
 }

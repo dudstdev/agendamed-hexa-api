@@ -11,28 +11,29 @@ export class DeleteSessionController {
     private readonly deleteSessionImpl: DeleteSessionImplController,
   ) {}
 
-  @Delete("")
+  @Delete()
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiOperation({
-    summary: "Delete a session",
-    description: "Revokes a session by its ID.",
+    summary: "Revogar sessão (logout)",
+    description:
+      "Revoga uma sessão com base no ID da sessão. Normalmente usada para logout do dispositivo atual.",
   })
   @ApiParam({
     name: "sessionId",
     required: true,
-    description: "The ID of the session to be revoked.",
+    description: "Identificador da sessão a ser revogada.",
   })
   @ApiResponse({
     status: 204,
-    description: "Session revoked successfully.",
+    description: "Sessão revogada com sucesso.",
   })
   @ApiResponse({
     status: 404,
-    description: "Session not found.",
+    description: "Nenhuma sessão foi encontrada com o ID informado.",
   })
   @ApiResponse({
     status: 500,
-    description: "Internal server error.",
+    description: "Erro inesperado no servidor ao processar a solicitação.",
   })
   async deleteSession(@Body() body: DeleteSessionRequestDTO): Promise<void> {
     return this.deleteSessionImpl.handle(body);

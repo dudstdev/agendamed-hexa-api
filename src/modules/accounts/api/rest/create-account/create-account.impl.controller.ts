@@ -14,6 +14,12 @@ export class CreateAccountImplController {
   ) {}
 
   async handle(request: AccountRequestDTO): Promise<AccountResponseDTO> {
-    return this.createAccountService.execute(request);
+    const response = await this.createAccountService.execute(request);
+
+    if (response.isLeft()) {
+      throw response.value;
+    }
+
+    return response.value;
   }
 }

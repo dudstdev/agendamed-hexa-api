@@ -17,26 +17,28 @@ export class RefreshSessionController {
   @Post()
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
-    summary: "Refresh session tokens",
+    summary: "Atualiza os tokens da sessão",
     description:
-      "Generates new access and refresh tokens using a valid refresh token.",
+      "Gera novos tokens de acesso e atualização com base em um token de atualização válido.",
   })
   @ApiResponse({
     status: 200,
-    description: "Tokens refreshed successfully.",
+    description: "Tokens gerados com sucesso.",
     type: SessionOutResponseDTO,
   })
   @ApiResponse({
     status: 400,
-    description: "Missing or invalid refresh token format.",
+    description:
+      "O token de atualização está ausente ou não segue o formato esperado.",
   })
   @ApiResponse({
     status: 401,
-    description: "Invalid or expired refresh token.",
+    description:
+      "O token de atualização informado está expirado, foi revogado ou não é válido.",
   })
   @ApiResponse({
     status: 500,
-    description: "Internal server error.",
+    description: "Erro inesperado no servidor ao processar a solicitação.",
   })
   async refreshSession(
     @Body() body: RefreshSessionRequestDTO,

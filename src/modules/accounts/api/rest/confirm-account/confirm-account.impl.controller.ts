@@ -13,6 +13,12 @@ export class ConfirmAccountImplController {
   ) {}
 
   async handle(request: ConfirmAccountRequestDTO): Promise<AccountResponseDTO> {
-    return this.confirmAccountService.execute(request);
+    const response = await this.confirmAccountService.execute(request);
+
+    if (response.isLeft()) {
+      throw response.value;
+    }
+
+    return response.value;
   }
 }

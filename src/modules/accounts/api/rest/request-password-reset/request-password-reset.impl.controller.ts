@@ -13,6 +13,10 @@ export class RequestPasswordResetImplController {
   ) {}
 
   async handle(request: PasswordResetRequestDTO): Promise<void> {
-    return this.requestPasswordResetService.execute(request);
+    const response = await this.requestPasswordResetService.execute(request);
+
+    if (response.isLeft()) {
+      throw response.value;
+    }
   }
 }

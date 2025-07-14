@@ -1,4 +1,4 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from "@nestjs/common";
+import { Body, Controller, HttpCode, HttpStatus, Patch } from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 
 import { ResetPasswordImplController } from "@/accounts/api/rest";
@@ -13,32 +13,33 @@ export class ResetPasswordController {
     private readonly resetPasswordImpl: ResetPasswordImplController,
   ) {}
 
-  @Post()
+  @Patch()
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiOperation({
-    summary: "Reset password",
+    summary: "Redefinir senha",
     description:
-      "Resets the user's password using the provided reset code and new password.",
+      "Permite redefinir a senha da conta usando o código de verificação recebido por e-mail.",
   })
   @ApiResponse({
     status: 204,
-    description: "Password reset successfully.",
+    description: "Senha redefinida com sucesso.",
   })
   @ApiResponse({
     status: 400,
-    description: "Invalid password format or missing required fields.",
+    description:
+      "Formato da senha inválido ou campos obrigatórios não foram preenchidos corretamente.",
   })
   @ApiResponse({
     status: 401,
-    description: "Invalid, expired, or already used reset code.",
+    description: "Código de redefinição inválido, expirado ou já utilizado.",
   })
   @ApiResponse({
     status: 404,
-    description: "Account not found with the provided email.",
+    description: "Conta associada ao código de redefinição não foi encontrada.",
   })
   @ApiResponse({
     status: 500,
-    description: "Internal server error.",
+    description: "Erro inesperado no servidor ao processar a solicitação.",
   })
   async resetPassword(@Body() body: ResetPasswordRequestDTO): Promise<void> {
     return this.resetPasswordImpl.handle(body);

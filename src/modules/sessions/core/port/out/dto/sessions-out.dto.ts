@@ -69,3 +69,8 @@ export class SessionsOutResponseDTO {
   @IsString()
   userAgent?: string | null;
 }
+
+export class SessionsListOutResponseDTO {
+  @ApiProperty({ type: [SessionsOutResponseDTO] })
+  sessions: SessionsOutResponseDTO[];
+}
