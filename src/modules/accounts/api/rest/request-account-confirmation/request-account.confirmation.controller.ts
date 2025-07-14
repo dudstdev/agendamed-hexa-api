@@ -6,7 +6,7 @@ import { AccountConfirmationRequestDTO } from "@/accounts/core/port/in";
 import { Public } from "@/shared/infrastructure";
 
 @ApiTags("Accounts")
-@Controller("/accounts/confirmation/request")
+@Controller("/accounts/confirmation")
 @Public()
 export class RequestAccountConfirmationController {
   constructor(
@@ -16,25 +16,32 @@ export class RequestAccountConfirmationController {
   @Post()
   @HttpCode(HttpStatus.ACCEPTED)
   @ApiOperation({
-    summary: "Request account confirmation",
+    summary: "Solicita confirmação de conta",
     description:
-      "Requests an account confirmation by sending a confirmation code to the user's email.",
+      "Gera e envia um código de confirmação por e-mail para validar uma conta existente.",
   })
   @ApiResponse({
     status: 202,
-    description: "Confirmation code sent successfully.",
+    description:
+      "Código de confirmação enviado com sucesso para o e-mail informado.",
   })
   @ApiResponse({
     status: 400,
-    description: "Bad request. The email may be invalid or missing.",
+    description:
+      "Requisição malformada ou dados inválidos fornecidos (ex: e-mail ausente).",
   })
   @ApiResponse({
     status: 404,
-    description: "Account not found with the provided email.",
+    description: "Nenhuma conta encontrada com o e-mail informado.",
+  })
+  @ApiResponse({
+    status: 409,
+    description:
+      "A conta já foi confirmada anteriormente e não requer nova confirmação.",
   })
   @ApiResponse({
     status: 500,
-    description: "Internal server error.",
+    description: "Erro inesperado no servidor ao processar a solicitação.",
   })
   async requestAccountConfirmation(
     @Body() body: AccountConfirmationRequestDTO,

@@ -6,6 +6,17 @@ import {
   RequestAccountConfirmationPortIn,
 } from "@/accounts/core/port/in";
 import { AccountsPortOut, TokensPortOut } from "@/accounts/core/port/out";
+import {
+  AccountNotFoundException,
+  AccountNotFoundFailure,
+  Either,
+  left,
+  right,
+} from "@/shared/exception";
+import {
+  AccountAlreadyConfirmedException,
+  AccountAlreadyConfirmedFailure,
+} from "@/shared/exception";
 import { generateNumericPin } from "@/shared/utils";
 
 export class RequestAccountConfirmationService
@@ -21,11 +32,30 @@ export class RequestAccountConfirmationService
     private readonly tokensPortOut: TokensPortOut,
   ) {}
 
-  async execute({ email }: AccountConfirmationRequestDTO): Promise<void> {
+  async execute({
+    email,
+  }: AccountConfirmationRequestDTO): Promise<
+    Either<AccountNotFoundException, void>
+  > {
     const account = await this.accountsPortOut.findByEmail(email);
 
     if (!account) {
-      throw new Error("Business Exception");
+      return left(
+        new AccountNotFoundException({
+          account: { email },
+          message: AccountNotFoundFailure.ACCOUNT_NOT_FOUND_FAILURE,
+        }),
+      );
+    }
+
+    if (account.isEmailVerified) {
+      return left(
+        new AccountAlreadyConfirmedException({
+          account: { email },
+          message:
+            AccountAlreadyConfirmedFailure.ACCOUNT_ALREADY_CONFIRMED_FAILURE,
+        }),
+      );
     }
 
     const confirmationToken = TokenEntity.create({
@@ -36,5 +66,7 @@ export class RequestAccountConfirmationService
     });
 
     await this.tokensPortOut.create(confirmationToken);
+
+    return right(undefined);
   }
 }
