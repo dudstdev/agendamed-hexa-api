@@ -41,7 +41,7 @@ Este projeto segue o padrão de **Arquitetura Hexagonal (Ports and Adapters)** c
 
 1. **Clone o repositório:**
    ```bash
-   git clone https://github.com/seu-usuario/agendamed-hexa-api.git
+   git clone https://github.com/dudstdev/agendamed-hexa-api.git
    cd agendamed-hexa-api
    ```
 
